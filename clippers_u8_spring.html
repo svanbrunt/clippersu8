@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clippers U8 Girls — Spring Season</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green:       #2d8a4e;
+    --green-light: #3aad63;
+    --green-dark:  #1a5c33;
+    --navy:        #0f1f2e;
+    --cream:       #f7f5f0;
+    --white:       #ffffff;
+    --accent:      #f5c518;
+    --gray:        #8a9ab0;
+    --gray-light:  #eef1f5;
+    --text:        #1a2535;
+  }
+
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* ─── HEADER ─── */
+  header { background: var(--navy); position: relative; overflow: hidden; padding: 40px 24px 30px; text-align: center; }
+  header::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 40px, transparent 40px, transparent 80px),
+      repeating-linear-gradient(0deg,  rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 40px, transparent 40px, transparent 80px);
+  }
+  .header-badge {
+    position: relative; display: inline-flex; align-items: center; gap: 7px;
+    background: var(--green); color: white; font-weight: 700; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 16px;
+  }
+  header h1 { position: relative; font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 10vw, 80px); color: white; letter-spacing: 4px; line-height: 0.95; margin-bottom: 10px; }
+  header h1 span { color: var(--accent); }
+  header p { position: relative; color: var(--gray); font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; }
+
+  /* ─── LEAGUE BAR ─── */
+  .league-bar { background: var(--green-dark); color: rgba(255,255,255,0.85); text-align: center; padding: 10px 16px; font-size: 13px; }
+  .league-bar a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .league-bar strong { color: white; }
+
+  /* ─── TABS ─── */
+  .tabs-wrap { display: flex; justify-content: center; gap: 10px; padding: 30px 16px 0; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 11px 28px; border: 2.5px solid #dde3ea; border-radius: 30px; cursor: pointer;
+    background: white; color: var(--gray); transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--green); color: var(--green); }
+  .tab-btn.active           { background: var(--green); color: white; border-color: var(--green);  box-shadow: 0 4px 16px rgba(45,138,78,0.35); }
+  .tab-btn.active.g2-tab    { background: #1a6fb5;     color: white; border-color: #1a6fb5;       box-shadow: 0 4px 16px rgba(26,111,181,0.35); }
+  .tab-btn.active.g3-tab    { background: #8b3080;     color: white; border-color: #8b3080;       box-shadow: 0 4px 16px rgba(139,48,128,0.35); }
+
+  /* ─── PANELS ─── */
+  .panel { display: none; padding: 26px 16px 60px; max-width: 960px; margin: 0 auto; animation: fadeIn 0.25s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── COACH CARD ─── */
+  .coach-card { background: var(--navy); color: white; border-radius: 16px; padding: 22px 26px; margin-bottom: 22px; display: flex; flex-wrap: wrap; gap: 22px; }
+  .coach-group { flex: 1; min-width: 160px; }
+  .coach-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .coach-name  { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; line-height: 1.1; margin-bottom: 5px; }
+  .coach-info  { font-size: 12.5px; color: var(--gray); line-height: 1.6; }
+  .coach-info a { color: #7ecfff; text-decoration: none; }
+
+  /* ─── SECTION TITLE ─── */
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2.5px; color: var(--navy); margin: 30px 0 16px; display: flex; align-items: center; gap: 12px; }
+  .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, var(--green) 0%, transparent 100%); border-radius: 2px; }
+  .g2-panel .section-title::after { background: linear-gradient(90deg, #1a6fb5 0%, transparent 100%); }
+  .g3-panel .section-title::after { background: linear-gradient(90deg, #8b3080 0%, transparent 100%); }
+
+  /* ─── ROSTER GRID ─── */
+  .roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .player-card { background: white; border-radius: 12px; padding: 14px 16px; border: 1.5px solid #e5eaf0; display: flex; align-items: center; gap: 13px; transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s; }
+  .player-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); border-color: var(--green-light); transform: translateY(-2px); }
+  .g2-panel .player-card:hover { border-color: #4a90d9; }
+  .g3-panel .player-card:hover { border-color: #c050b0; }
+  .player-num { width: 38px; height: 38px; background: var(--green); color: white; border-radius: 50%; font-family: 'Bebas Neue', sans-serif; font-size: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .g2-panel .player-num { background: #1a6fb5; }
+  .g3-panel .player-num { background: #8b3080; }
+  .player-name    { font-weight: 700; font-size: 14.5px; line-height: 1.2; color: var(--navy); }
+  .player-contact { font-size: 11.5px; color: var(--gray); margin-top: 3px; }
+
+  /* ─── VENUE NOTE ─── */
+  .venue-note { background: #f0f8f3; border: 1.5px dashed var(--green-light); border-radius: 10px; padding: 11px 16px; font-size: 12.5px; color: var(--green-dark); margin-bottom: 14px; font-weight: 500; }
+  .g2-panel .venue-note { background: #f0f5ff; border-color: #4a90d9; color: #0d3b6b; }
+  .g3-panel .venue-note { background: #fdf0fc; border-color: #c050b0; color: #5e0d57; }
+
+  /* ─── TABLE ─── */
+  .schedule-wrap { border-radius: 14px; overflow: hidden; border: 1.5px solid #e5eaf0; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead { background: var(--navy); }
+  .g2-panel thead { background: #0d2a45; }
+  .g3-panel thead { background: #2a0d26; }
+  thead th { color: white; font-weight: 700; font-size: 10.5px; letter-spacing: 1.8px; text-transform: uppercase; padding: 14px 16px; text-align: left; }
+  thead th.cal-th { text-align: center; }
+  tbody tr { border-bottom: 1px solid #eef1f5; transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f3f8f4; }
+  .g2-panel tbody tr:hover { background: #f2f6fb; }
+  .g3-panel tbody tr:hover { background: #fdf3fc; }
+  tbody td { padding: 13px 16px; vertical-align: middle; }
+
+  /* ─── DATE / TIME CELL ─── */
+  .date-col { min-width: 120px; }
+  .date-main { font-weight: 700; color: var(--navy); font-size: 14px; line-height: 1; }
+  .time-line {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px; color: var(--gray); font-weight: 500; margin-top: 4px;
+  }
+  .clock-icon { width: 12px; height: 12px; flex-shrink: 0; }
+
+  /* ─── CHIPS ─── */
+  .opp-col  { font-weight: 600; color: var(--text); }
+  .rsvp-col { line-height: 1.9; }
+  .rsvp-chip  { display: inline-block; background: var(--gray-light); color: var(--text); font-size: 11.5px; font-weight: 500; padding: 2px 9px; border-radius: 8px; margin: 1px 2px 1px 0; }
+  .snack-chip { display: inline-block; background: #fff7d6; color: #7a5c00; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 8px; }
+  .note-small { font-size: 11px; color: var(--gray); font-style: italic; margin-top: 2px; }
+
+  /* ─── CALENDAR BUTTON ─── */
+  td.cal-col { text-align: center; }
+  .cal-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: white; border: 1.5px solid #d0d8e4; border-radius: 8px;
+    padding: 5px 11px; font-family: 'DM Sans', sans-serif; font-size: 11.5px; font-weight: 600;
+    color: #4285F4; text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: all 0.18s;
+  }
+  .cal-btn:hover { background: #4285F4; color: white; border-color: #4285F4; box-shadow: 0 2px 8px rgba(66,133,244,0.3); }
+  .cal-btn:hover .gcal-path { fill: white; }
+  .cal-btn svg.gcal { width: 13px; height: 13px; flex-shrink: 0; }
+  .cal-stack { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+
+  /* BYE */
+  .bye-row td { color: var(--gray); font-style: italic; font-weight: 500; }
+
+  @media (max-width: 640px) {
+    thead th:nth-child(3), tbody td:nth-child(3) { display: none; }
+    .coach-card { flex-direction: column; gap: 16px; }
+    .panel { padding: 20px 12px 50px; }
+    .cal-btn .cal-label { display: none; }
+    .cal-btn { padding: 5px 7px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">⚽ CFC · Spring Season</div>
+  <h1>CLIPPERS <span>U8</span> GIRLS</h1>
+  <p>Spring Roster &amp; Game Schedule</p>
+</header>
+<div class="league-bar">
+  League Coach: <strong>Emily Hornig</strong> &nbsp;·&nbsp;
+  <a href="mailto:emilyh@24-7.me">emilyh@24-7.me</a> &nbsp;·&nbsp;
+  <a href="tel:5107018175">510-701-8175</a>
+</div>
+
+<div class="tabs-wrap">
+  <button class="tab-btn active" onclick="showTab('g1',this)">⚽ CFC G1</button>
+  <button class="tab-btn g2-tab" onclick="showTab('g2',this)">⚽ CFC G2</button>
+  <button class="tab-btn g3-tab" onclick="showTab('g3',this)">⚽ CFC G3</button>
+</div>
+
+<!-- reusable SVG defs -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Google Calendar icon -->
+  <symbol id="gcal" viewBox="0 0 18 18">
+    <rect x="1" y="3" width="16" height="14" rx="1.5" fill="#fff" stroke="#dadce0" stroke-width="1"/>
+    <rect x="1" y="3" width="16" height="4" rx="1.5" fill="#4285F4"/>
+    <rect x="1" y="5" width="16" height="2" fill="#4285F4"/>
+    <rect x="4" y="1" width="2" height="4" rx="1" fill="#4285F4"/>
+    <rect x="12" y="1" width="2" height="4" rx="1" fill="#4285F4"/>
+    <rect x="3.5" y="10" width="3" height="2.5" rx="0.5" fill="#34A853"/>
+    <rect x="7.5" y="10" width="3" height="2.5" rx="0.5" fill="#FBBC04"/>
+    <rect x="11.5" y="10" width="3" height="2.5" rx="0.5" fill="#EA4335"/>
+  </symbol>
+  <!-- clock icon -->
+  <symbol id="clock" viewBox="0 0 14 14">
+    <circle cx="7" cy="7" r="5.5" stroke="#8a9ab0" stroke-width="1.2" fill="none"/>
+    <path d="M7 4.5v3l1.8 1.3" stroke="#8a9ab0" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
+<!-- helper to build gcal URL -->
+<script>
+function gcal(team, opp, dateStr, startT, endT) {
+  const loc = encodeURIComponent('24-7 UK Soccer, 210 Hegenberger Loop, Oakland, CA 94621');
+  const title = encodeURIComponent('CFC ' + team + ' vs ' + opp);
+  const dates = dateStr + 'T' + startT + '/' + dateStr + 'T' + endT;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&location=${loc}&ctz=America%2FLos_Angeles`;
+}
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+<!-- ════════════════ G1 ════════════════ -->
+<div id="g1" class="panel g1-panel active">
+  <div class="coach-card">
+    <div class="coach-group"><div class="coach-label">Head Coach</div><div class="coach-name">Rekha Rao</div><div class="coach-info"><a href="mailto:rekhakrao@gmail.com">rekhakrao@gmail.com</a><br>310-729-5768</div></div>
+    <div class="coach-group"><div class="coach-label">Back-up Coach</div><div class="coach-name">Andy Waranoff</div><div class="coach-info"><a href="mailto:awaranoff@gmail.com">awaranoff@gmail.com</a></div></div>
+    <div class="coach-group"><div class="coach-label">Vol. Manager</div><div class="coach-name">TBD</div><div class="coach-info">—</div></div>
+  </div>
+
+  <div class="section-title">Roster</div>
+  <div class="roster-grid">
+    <div class="player-card"><div class="player-num">1</div><div><div class="player-name">Myla Waranoff</div><div class="player-contact">312-953-7390</div></div></div>
+    <div class="player-card"><div class="player-num">2</div><div><div class="player-name">Amara Chapman</div><div class="player-contact">510-520-4768</div></div></div>
+    <div class="player-card"><div class="player-num">3</div><div><div class="player-name">Kira Patel</div><div class="player-contact">310-729-5768</div></div></div>
+    <div class="player-card"><div class="player-num">4</div><div><div class="player-name">Penelope Lumsden</div><div class="player-contact">617-875-4457</div></div></div>
+    <div class="player-card"><div class="player-num">5</div><div><div class="player-name">Savannah Brown</div><div class="player-contact">773-791-3701</div></div></div>
+    <div class="player-card"><div class="player-num">6</div><div><div class="player-name">Olivia Lauwers</div><div class="player-contact">—</div></div></div>
+  </div>
+
+  <div class="section-title">Schedule</div>
+  <div class="venue-note">📍 All games at 24-7 UK Soccer · 210 Hegenberger Loop, Oakland, CA 94621</div>
+  <div class="schedule-wrap"><table>
+    <thead><tr><th>Date</th><th>Opponent</th><th>RSVPd</th><th>Snacks</th><th class="cal-th">Add to Cal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="date-col"><div class="date-main">Feb 22</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CV 2</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CV 2','20260222','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 1</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CV 3</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td><span class="snack-chip">🍊 Amara</span></td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CV 3','20260301','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 8</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CFC G2</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CFC G2','20260308','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 15</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CV G4</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CV G4','20260315','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 22</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>12:00 PM</div></td>
+        <td class="opp-col">ASC in G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','ASC G1','20260322','120000','130000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 19</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CV G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CV G1','20260419','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 26</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">CFC G3</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','CFC G3','20260426','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">May 3</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>9:00 AM</div></td>
+        <td class="opp-col">EBU G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Amara</span><span class="rsvp-chip">Myla</span></td>
+        <td><span class="snack-chip">🍊 Myla</span></td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G1','EBU G1','20260503','090000','100000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ════════════════ G2 ════════════════ -->
+<div id="g2" class="panel g2-panel">
+  <div class="coach-card" style="background:#0d2a45;">
+    <div class="coach-group"><div class="coach-label">Head Coach</div><div class="coach-name">Eric Hooper</div><div class="coach-info"><a href="mailto:ewhooper@gmail.com">ewhooper@gmail.com</a><br>608-469-5794</div></div>
+    <div class="coach-group"><div class="coach-label">Back-up Coach</div><div class="coach-name">TBD</div><div class="coach-info">—</div></div>
+    <div class="coach-group"><div class="coach-label">Vol. Manager</div><div class="coach-name">Theo Miller</div><div class="coach-info"><a href="mailto:theodore.miller@gmail.com">theodore.miller@gmail.com</a><br>310-850-6684</div></div>
+  </div>
+
+  <div class="section-title">Roster</div>
+  <div class="roster-grid">
+    <div class="player-card"><div class="player-num">1</div><div><div class="player-name">Quinn Raymond Miller</div><div class="player-contact">510-368-6560</div></div></div>
+    <div class="player-card"><div class="player-num">2</div><div><div class="player-name">Giora Hooper</div><div class="player-contact">608-469-5794</div></div></div>
+    <div class="player-card"><div class="player-num">3</div><div><div class="player-name">Mira Chandrasekaran</div><div class="player-contact">925-708-2822</div></div></div>
+    <div class="player-card"><div class="player-num">4</div><div><div class="player-name">Charlotte Fiddler</div><div class="player-contact">301-641-4148</div></div></div>
+    <div class="player-card"><div class="player-num">5</div><div><div class="player-name">Eve Cerio</div><div class="player-contact">408-316-4987</div></div></div>
+    <div class="player-card"><div class="player-num">6</div><div><div class="player-name">Evan Gagin</div><div class="player-contact">858-952-3218</div></div></div>
+    <div class="player-card"><div class="player-num">7</div><div><div class="player-name">Anastasia Carley</div><div class="player-contact">858-220-4494</div></div></div>
+  </div>
+
+  <div class="section-title">Schedule</div>
+  <div class="venue-note">📍 All games at 24-7 UK Soccer · 210 Hegenberger Loop, Oakland, CA 94621</div>
+  <div class="schedule-wrap"><table>
+    <thead><tr><th>Date</th><th>Opponent</th><th>RSVPd</th><th>Snacks</th><th class="cal-th">Add to Cal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="date-col"><div class="date-main">Feb 22</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">CFC G3</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Quinn</span><span class="rsvp-chip">Evan</span><span class="rsvp-chip">Mira</span><span class="rsvp-chip">Eve</span></td>
+        <td><span class="snack-chip">🍊 Eve</span></td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CFC G3','20260222','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 1</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>1:00 PM</div></td>
+        <td class="opp-col">EBU G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Ana</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','EBU G1','20260301','130000','140000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 8</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CFC G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Evan</span></td>
+        <td><span class="snack-chip">🍊 Evan</span></td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CFC G1','20260308','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 15</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">CV G2</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Mira</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CV G2','20260315','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 22</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>9:00 AM</div></td>
+        <td class="opp-col">CV G3</td>
+        <td class="rsvp-col">—</td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CV G3','20260322','090000','100000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 19</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>1:00 PM</div></td>
+        <td class="opp-col">CV G1</td>
+        <td class="rsvp-col">—</td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CV G1','20260419','130000','140000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 26</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>9:00 AM</div></td>
+        <td class="opp-col">CV G4</td>
+        <td class="rsvp-col">—</td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','CV G4','20260426','090000','100000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">May 3</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">ASC G1</td>
+        <td class="rsvp-col">—</td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G2','ASC G1','20260503','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ════════════════ G3 ════════════════ -->
+<div id="g3" class="panel g3-panel">
+  <div class="coach-card" style="background:#2a0d26;">
+    <div class="coach-group"><div class="coach-label">Head Coach</div><div class="coach-name">TBD</div><div class="coach-info">—</div></div>
+    <div class="coach-group"><div class="coach-label">Back-up Coach</div><div class="coach-name">TBD</div><div class="coach-info">—</div></div>
+    <div class="coach-group"><div class="coach-label">Vol. Manager</div><div class="coach-name">TBD</div><div class="coach-info">—</div></div>
+  </div>
+
+  <div class="section-title">Roster</div>
+  <div class="roster-grid">
+    <div class="player-card"><div class="player-num">1</div><div><div class="player-name">Neve Rosenthal</div><div class="player-contact">312-576-2860</div></div></div>
+    <div class="player-card"><div class="player-num">2</div><div><div class="player-name">Hadley Van Brunt</div><div class="player-contact">603-986-5895</div></div></div>
+    <div class="player-card"><div class="player-num">3</div><div><div class="player-name">Grace Sallee</div><div class="player-contact">773-316-3480</div></div></div>
+    <div class="player-card"><div class="player-num">4</div><div><div class="player-name">Abigail Cheff</div><div class="player-contact">925-246-3711</div></div></div>
+    <div class="player-card"><div class="player-num">5</div><div><div class="player-name">Daniela Patrick</div><div class="player-contact">510-414-2931</div></div></div>
+    <div class="player-card"><div class="player-num">6</div><div><div class="player-name">Victoria Walker</div><div class="player-contact">818-636-0517</div></div></div>
+    <div class="player-card"><div class="player-num">7</div><div><div class="player-name">Ingrid</div><div class="player-contact">—</div></div></div>
+  </div>
+
+  <div class="section-title">Schedule</div>
+  <div class="venue-note">📍 All games at 24-7 UK Soccer · 210 Hegenberger Loop, Oakland, CA 94621</div>
+  <div class="schedule-wrap"><table>
+    <thead><tr><th>Date</th><th>Opponent</th><th>RSVPd</th><th>Snacks</th><th class="cal-th">Add to Cal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="date-col"><div class="date-main">Feb 22</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">CFC G2</td>
+        <td class="rsvp-col">
+          <span class="rsvp-chip">Daniela</span><span class="rsvp-chip">Victoria</span><span class="rsvp-chip">Hadley ✻</span>
+          <div class="note-small">✻ until 10:40</div>
+        </td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CFC G2','20260222','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 1</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10:00 AM</div></td>
+        <td class="opp-col">CV G4</td>
+        <td class="rsvp-col">
+          <span class="rsvp-chip">Daniela ✻</span>
+          <div class="note-small">✻ until 10:30</div>
+        </td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CV G4','20260301','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 8</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>12:00 PM</div></td>
+        <td class="opp-col">ASC G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Grace</span><span class="rsvp-chip">Abby</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','ASC G1','20260308','120000','130000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Mar 15</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>9:00 AM</div></td>
+        <td class="opp-col">CV G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Daniela</span></td>
+        <td><span class="snack-chip">🍊 Daniela</span></td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CV G1','20260315','090000','100000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr class="bye-row">
+        <td class="date-col"><div class="date-main">Mar 22</div></td>
+        <td colspan="4">🚫 BYE — No game this week</td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 19</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>9:00 AM</div></td>
+        <td class="opp-col">EBU G1</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Abigail</span><span class="rsvp-chip">Daniela</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','EBU G1','20260419','090000','100000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">Apr 26</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>10 AM &amp; 1 PM</div></td>
+        <td class="opp-col">CFC G1 + CV G3<div class="note-small">Two games!</div></td>
+        <td class="rsvp-col"><span class="rsvp-chip">Abigail</span></td>
+        <td>—</td>
+        <td class="cal-col">
+          <div class="cal-stack">
+            <a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CFC G1','20260426','100000','110000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">10 AM</span></a>
+            <a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CV G3','20260426','130000','140000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">1 PM</span></a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="date-col"><div class="date-main">May 3</div><div class="time-line"><svg class="clock-icon"><use href="#clock"/></svg>11:00 AM</div></td>
+        <td class="opp-col">CV G2</td>
+        <td class="rsvp-col"><span class="rsvp-chip">Abigail</span><span class="rsvp-chip">Daniela</span></td>
+        <td>—</td>
+        <td class="cal-col"><a class="cal-btn" href="javascript:void(0)" onclick="window.open(gcal('G3','CV G2','20260503','110000','120000'))"><svg class="gcal"><use href="#gcal"/></svg><span class="cal-label">Add</span></a></td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+
+</body>
+</html>
